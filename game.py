@@ -1,4 +1,5 @@
 from board import Board
+
 from player import Player
 
 
@@ -48,3 +49,4 @@ class Game:
             if self.board.isOnBoard(i):
                 hasValidInput = True
         return i
+

@@ -1,4 +1,5 @@
 class Player:
+
     score = 0;
 
     def __init__(self):
@@ -9,3 +10,4 @@ class Player:
 
     def getScore(self):
         return len(self.cards)
+

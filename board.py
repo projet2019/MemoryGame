@@ -4,15 +4,14 @@ from card import Card
 
 
 class Board:
-    size = 6
     size = 4
 
     def __init__(self):
         pairCount = int(self.size * self.size / 2)
+        values = list(string.ascii_uppercase[0:pairCount])
         values += values  # double les valeurs
         random.shuffle(values)
         self.cards = [Card(value) for value in values]
-
     def getCard(self, i):
         return self.cards[i].value
 
