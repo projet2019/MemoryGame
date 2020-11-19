@@ -24,6 +24,8 @@ class Board:
     def isOnBoard(self, i):
         return i >= 0 and i < self.size * self.size
 
+    def isShown(self, i):
+        return self.cards[i].isShown
     def draw(self):
         display = ""
         for i, card in enumerate(self.cards):

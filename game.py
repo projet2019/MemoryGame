@@ -1,5 +1,4 @@
 from board import Board
-
 from player import Player
 
 
@@ -46,7 +45,7 @@ class Game:
             print("Choisissez une carte")
             i = int(input()) - 1
             hasEnteredInput = True
-            if self.board.isOnBoard(i):
+            if self.board.isOnBoard(i) and not self.board.isShown(i):
                 hasValidInput = True
         return i
 
