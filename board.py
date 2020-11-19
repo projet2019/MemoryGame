@@ -7,11 +7,12 @@ class Board:
     size = 4
 
     def __init__(self):
-        pairCount = int(self.size * self.size / 2)
+        pairCount = int(self.getPairCount())
         values = list(string.ascii_uppercase[0:pairCount])
         values += values  # double les valeurs
         random.shuffle(values)
         self.cards = [Card(value) for value in values]
+
     def getCard(self, i):
         return self.cards[i].value
 
@@ -21,11 +22,15 @@ class Board:
     def hideCard(self, i):
         self.cards[i].isShown = False
 
+    def getPairCount(self):
+        return self.size * self.size / 2
+
     def isOnBoard(self, i):
         return i >= 0 and i < self.size * self.size
 
     def isShown(self, i):
         return self.cards[i].isShown
+    
     def draw(self):
         display = ""
         for i, card in enumerate(self.cards):
