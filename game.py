@@ -26,6 +26,10 @@ class Game:
             print(f'Le joueur {i + 1} a trouvé {self.players[i].getScore()} paire')
         if self.players[0].getScore() > self.players[1].getScore():
             print("Le joueur 1 a gagné!")
+        elif self.players[0].getScore() < self.players[1].getScore():
+            print("Le joueur 2 a gagné!")
+        else:
+            print("Egalité!")
 
     def processInput(self):
         hasValidInput = False
