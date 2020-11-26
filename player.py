@@ -1,13 +1,13 @@
 class Player:
+  """Représente le joueur."""
 
-    score = 0
-
-    def __init__(self):
-        self.cards = set()
-
-    def gainCard(self, card):
-        self.cards.add(card)
-
-    def getScore(self):
-        return len(self.cards)
-
+  def __init__(self):
+    self.cards = set()
+  
+  def gainCard(self, card):
+    """Ajoute une paire de carte."""
+    self.cards.add(card)
+    
+  def getScore(self):
+    """Calcule le nombre de paire."""
+    return len(self.cards)
