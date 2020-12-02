@@ -1,8 +1,7 @@
 class Card:
-    isShown = False
+  """Représente une carte de jeu."""
 
-    def __init__(self, value):
-        self.value = value
-
-    def show(self):
-        self.isShown = True
+  isShown = False
+  
+  def __init__(self, value):
+    self.value = value
