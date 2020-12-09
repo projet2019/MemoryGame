@@ -5,7 +5,6 @@ from card import Card
 
 class Board:
     """Crée et gère les cartes du jeu."""
-
     size = 4
 
     def __init__(self):
@@ -31,9 +30,14 @@ class Board:
         """Indique qu'une carte à une position donnée doit être cachée."""
         self.cards[i].isShown = False
 
+
     def isOnBoard(self, i):
         """Indique si la position donnée se trouve bien sur le plateau de jeu."""
         return 0 <= i < self.size * self.size
+
+    def getPairCount(self):
+        """Renvoie le nombre de paire."""
+        return self.size * self.size / 2
 
     def isShown(self, i):
         """Indique si une carte à une position donnée est affichée ou cachée."""
@@ -41,8 +45,11 @@ class Board:
 
     def draw(self):
         """Affiche le plateau de jeu dans la console.
+
     Si une carte est cachée, affiche X.
     Sinon, affiche la valeur de la carte."""
+          
+
         display = ""
         for i, card in enumerate(self.cards):
             if card.isShown:
