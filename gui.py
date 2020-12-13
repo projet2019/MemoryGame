@@ -49,6 +49,7 @@ class MemoryGame(BoxLayout):
         for chosenCard in self.chosenCards:
             button = self.cardButtons[chosenCard[0]]
             if self.chosenCards[0][1] != self.chosenCards[1][1]:
+                self.board.hideCard(chosenCard[0])
                 button.text = '?'
             button.background_color = (1, 1, 1, 1)
         if self.chosenCards[0][1] != self.chosenCards[1][1]:
@@ -57,7 +58,11 @@ class MemoryGame(BoxLayout):
 
             self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
             self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
-
+            self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+            if self.players[0].getScore() + self.players[1].getScore() < self.board.getPairCount():
+                self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+            else:
+                self.currPlayerLabel.text = 'Fin de la partie'
 
 class MemoryApp(App):
     def build(self):
