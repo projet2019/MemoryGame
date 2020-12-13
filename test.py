@@ -19,4 +19,19 @@ def test18IsNotOnBoard(self):
     self.assertFalse(self.board.isOnBoard(18), "18 ne devrait pas faire partie du plateau de jeu")
 
 
+class TestPlayer(unittest.TestCase):
+    """Test que le joueur soit correctement implémenté"""
 
+    player = Player()
+
+
+def testScore(self):
+    """Test que le score soit correctement calculé"""
+    self.player.gainCard('S')
+    self.player.gainCard('A')
+    self.player.gainCard('C')
+    self.assertEqual(self.player.getScore(), 3, "Le joueur doit avoir 3 paires")
+
+
+if __name__ == "__main__":
+    unittest.main()
