@@ -44,6 +44,7 @@ class MemoryGame(BoxLayout):
             if self.chosenCards[0][1] == self.chosenCards[1][1]:
                 self.players[self.currPlayer].gainCard(card)
             Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
+
         if self.board.isOnBoard(i) and not self.board.isShown(i) and len(self.chosenCards) < 2:
             self.board.showCard(i)
             card = self.board.getCard(i)
@@ -56,9 +57,11 @@ class MemoryGame(BoxLayout):
                     self.players[self.currPlayer].gainCard(card)
                 Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
 
+
     def resetChosenCard(self, dt):
         """Supprime les cartes sélectionnées et met à jour l'affichage du score"""
         for chosenCard in self.chosenCards:
+
             self.board.hideCard(chosenCard[0])
             button = self.cardButtons[chosenCard[0]]
             if self.chosenCards[0][1] != self.chosenCards[1][1]:
@@ -70,6 +73,14 @@ class MemoryGame(BoxLayout):
         self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
         self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
 
+
+            self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
+            self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+            self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+            if self.players[0].getScore() + self.players[1].getScore() < self.board.getPairCount():
+                self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+            else:
+                self.currPlayerLabel.text = 'Fin de la partie'
 
 class MemoryApp(App):
     def build(self):
