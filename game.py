@@ -1,7 +1,7 @@
 from board import Board
 from player import Player
 from error import InvalidInputError, InvalidCardError
-
+from datetime import datetime
 
 class Game:
     """Gère le déroulement du jeu"""
@@ -40,12 +40,18 @@ class Game:
         print("Fin de la partie")
         for i in range(2):
             print(f'Le joueur {i + 1} a trouvé {self.players[i].getScore()} paire')
+            f = open("games.log", "a")
+            dateTime = datetime.now()
         if self.players[0].getScore() > self.players[1].getScore():
             print("Le joueur 1 a gagné!")
+            f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 1 a gagné!\n')
         elif self.players[0].getScore() < self.players[1].getScore():
             print("Le joueur 2 a gagné!")
+            f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 2 a gagné!\n')
         else:
             print("Egalité!")
+            f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Egalité!\n')
+            f.close()
 
     def processInput(self):
         """Récupère une commande valide de la part de l'utilisateur."""
