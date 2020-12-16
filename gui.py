@@ -11,6 +11,7 @@ from player import Player
 
 class MemoryGame(BoxLayout):
     """Gère le déroulement du jeu et les widgets de la fenêtre"""
+
     board = Board()
     players = [Player(), Player()]
     chosenCards = []
@@ -44,17 +45,34 @@ class MemoryGame(BoxLayout):
                 self.players[self.currPlayer].gainCard(card)
             Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
 
+        if self.board.isOnBoard(i) and not self.board.isShown(i) and len(self.chosenCards) < 2:
+            self.board.showCard(i)
+            card = self.board.getCard(i)
+            button = self.cardButtons[i]
+            button.text = card
+            button.background_color = (0, 0, 1, 1)
+            self.chosenCards.append((i, card))
+            if len(self.chosenCards) == 2:
+                if self.chosenCards[0][1] == self.chosenCards[1][1]:
+                    self.players[self.currPlayer].gainCard(card)
+                Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
+
+
     def resetChosenCard(self, dt):
         """Supprime les cartes sélectionnées et met à jour l'affichage du score"""
         for chosenCard in self.chosenCards:
+
+            self.board.hideCard(chosenCard[0])
             button = self.cardButtons[chosenCard[0]]
             if self.chosenCards[0][1] != self.chosenCards[1][1]:
-                self.board.hideCard(chosenCard[0])
                 button.text = '?'
-            button.background_color = (1, 1, 1, 1)
         if self.chosenCards[0][1] != self.chosenCards[1][1]:
             self.currPlayer ^= 1  # change 0 en 1 et 1 en 0
-            self.chosenCards.clear()
+        self.chosenCards.clear()
+
+        self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
+        self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
+
 
             self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
             self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
