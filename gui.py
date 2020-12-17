@@ -33,12 +33,16 @@ class MemoryGame(BoxLayout):
         self.add_widget(self.scoreLabel)
         self.add_widget(self.currPlayerLabel)
         self.add_widget(self.boardWidget)
+        print(f'Tour du joueur {self.currPlayer + 1} (Nombre de paire : {self.players[self.currPlayer].getScore()})')
+        self.board.draw()
 
     def update(self, i):
         """Met à jour l'interface lorsqu'une carte est sélectionnée"""
 
         if self.board.isOnBoard(i) and not self.board.isShown(i) and len(self.chosenCards) < 2:
+            print(f'Tour du joueur {self.currPlayer + 1} (Nombre de paire : {self.players[self.currPlayer].getScore()})')
             self.board.showCard(i)
+            self.board.draw()
             card = self.board.getCard(i)
             button = self.cardButtons[i]
             button.text = card
@@ -47,6 +51,7 @@ class MemoryGame(BoxLayout):
             if len(self.chosenCards) == 2:
                 if self.chosenCards[0][1] == self.chosenCards[1][1]:
                     self.players[self.currPlayer].gainCard(card)
+                    print("Vous avez trouvé une paire!")
                 Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
 
     def resetChosenCard(self, dt):
@@ -58,26 +63,27 @@ class MemoryGame(BoxLayout):
                 button.text = '?'
                 button.background_color = (1, 1, 1, 1)
         if self.chosenCards[0][1] != self.chosenCards[1][1]:
+            print("Vous n'avez pas trouvé de paire...")
             self.currPlayer ^= 1  # change 0 en 1 et 1 en 0
         self.chosenCards.clear()
-
         self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
-
         if self.players[0].getScore() + self.players[1].getScore() < self.board.getPairCount():
             self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
         else:
             self.currPlayerLabel.text = 'Fin de la partie'
+            print("Fin de la partie")
             f = open("games.log", "a")
             dateTime = datetime.now()
             if self.players[0].getScore() > self.players[1].getScore():
-                f.write(
-                    f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 1 a gagné!\n')
+                print("Le joueur 1 a gagné!")
+                f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 1 a gagné!\n')
             elif self.players[0].getScore() < self.players[1].getScore():
-                f.write(
-                    f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 2 a gagné!\n')
+                print("Le joueur 2 a gagné!")
+                f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 2 a gagné!\n')
             else:
+                print("Egalité!")
                 f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Egalité!\n')
-                f.close()
+            f.close()
 
 
 class MemoryApp(App):
