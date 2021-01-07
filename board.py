@@ -33,11 +33,6 @@ class Board:
     def isOnBoard(self, i):
         """Indique si la position donnée se trouve bien sur le plateau de jeu."""
         return 0 <= i < self.size * self.size
-
-    def getPairCount(self):
-        """Renvoie le nombre de paire."""
-        return self.size * self.size / 2
-
     def isShown(self, i):
         """Indique si une carte à une position donnée est affichée ou cachée."""
         return self.cards[i].isShown
