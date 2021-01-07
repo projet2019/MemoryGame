@@ -1,6 +1,7 @@
 import unittest
 from board import Board
 from player import Player
+from game import Game
 
 
 class TestBoard(unittest.TestCase):
@@ -48,6 +49,17 @@ class TestPlayer(unittest.TestCase):
         self.player.gainCard('A')
         self.player.gainCard('C')
         self.assertEqual(self.player.getScore(), 3, "Le joueur doit avoir 3 paires")
+
+
+class TestGame(unittest.TestCase):
+    """Test que le jeu soit correctement implémenté"""
+
+    game = Game()
+
+    def testIsInputValid(self):
+        """Test la validité de la commande"""
+        hasValidInput, i = self.game.isInputValid("3")
+        self.assertEqual(i, 2, "Le joueur a choisi la 3e carte")
 
 
 if __name__ == "__main__":
