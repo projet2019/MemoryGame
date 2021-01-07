@@ -60,13 +60,7 @@ class Game:
         while not hasValidInput:
             try:
                 inputString = input("Choisissez une carte : ")
-                if not inputString.isnumeric():
-                    raise InvalidInputError
-                i = int(inputString) - 1
-                if self.board.isOnBoard(i) and not self.board.isShown(i):
-                    hasValidInput = True
-                else:
-                    raise InvalidCardError
+                hasValidInput, i = self.isInputValid(inputString)
             except InvalidInputError:
                 print("Commande non valide!")
                 continue
@@ -75,3 +69,15 @@ class Game:
                 continue
 
         return i
+
+    def isInputValid(self, inputString):
+        """Vérifie la validité d'une commande."""
+        if not inputString.isnumeric():
+            raise InvalidInputError
+        i = int(inputString) - 1
+        if self.board.isOnBoard(i) and not self.board.isShown(i):
+            return True, i
+        else:
+            raise InvalidCardError
+
+
