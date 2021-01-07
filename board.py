@@ -40,7 +40,6 @@ class Board:
         """
         self.cards[i].isShown = False
 
-
     def isOnBoard(self, i):
         """
         Indique si la position donnée se trouve bien sur le plateau de jeu.
@@ -60,6 +59,7 @@ class Board:
         """
         return self.size * self.size / 2
 
+
     def isShown(self, i):
         """
         Indique si une carte à une position donnée est affichée ou cachée.
@@ -70,13 +70,13 @@ class Board:
         return self.cards[i].isShown
 
     def draw(self):
+
         """
         Affiche le plateau de jeu dans la console.
         Si une carte est cachée, affiche X.
         Sinon, affiche la valeur de la carte.
         """
-          
-
+     
         display = ""
         for i, card in enumerate(self.cards):
             if card.isShown:
