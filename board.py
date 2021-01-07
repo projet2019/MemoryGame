@@ -14,40 +14,67 @@ class Board:
         random.shuffle(values)
         self.cards = [Card(value) for value in values]
 
-    def getPairCount(self):
-        """Renvoie le nombre de paire."""
-        return self.size * self.size / 2
-
     def getCard(self, i):
-        """Renvoie la value d'une carte à une position donnée."""
+        """Renvoie la value d'une carte à une position donnée.
+            PRE: i (int): Numéro de la carte
+            POST: renvoi une liste de carte à une position donnée """
+        
         return self.cards[i].value
 
     def showCard(self, i):
-        """Indique qu'une carte à une position donnée doit être affichée."""
+        """
+        Indique qu'une carte à une position donnée doit être affichée.
+        PRE: i (int): Numéro de la carte
+        POST: -
+        RAISES:-
+        """
+
         self.cards[i].isShown = True
 
     def hideCard(self, i):
-        """Indique qu'une carte à une position donnée doit être cachée."""
+        """
+        Indique qu'une carte à une position donnée doit être cachée.
+        PRE: i (int): Numéro de la carte
+        POST: -
+        RAISES:-
+        """
         self.cards[i].isShown = False
 
 
     def isOnBoard(self, i):
-        """Indique si la position donnée se trouve bien sur le plateau de jeu."""
+        """
+        Indique si la position donnée se trouve bien sur le plateau de jeu.
+        PRE: i (int): Numéro de la carte
+        POST: bool: True si la carte est dans les limites.
+             False sinon
+        RAISES:-
+        """
         return 0 <= i < self.size * self.size
 
     def getPairCount(self):
-        """Renvoie le nombre de paire."""
+        """
+        Renvoie le nombre de paire.
+        PRE: -
+        POST: renvoie le nombre de paire int
+        RAISES:-
+        """
         return self.size * self.size / 2
 
     def isShown(self, i):
-        """Indique si une carte à une position donnée est affichée ou cachée."""
+        """
+        Indique si une carte à une position donnée est affichée ou cachée.
+        PRE: i (int): Numéro de la carte
+        POST:  bool: True si la carte est affichée et False sinon
+        RAISES:-
+        """
         return self.cards[i].isShown
 
     def draw(self):
-        """Affiche le plateau de jeu dans la console.
-
-    Si une carte est cachée, affiche X.
-    Sinon, affiche la valeur de la carte."""
+        """
+        Affiche le plateau de jeu dans la console.
+        Si une carte est cachée, affiche X.
+        Sinon, affiche la valeur de la carte.
+        """
           
 
         display = ""
