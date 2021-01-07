@@ -30,7 +30,6 @@ class Board:
         """Indique qu'une carte à une position donnée doit être cachée."""
         self.cards[i].isShown = False
 
-
     def isOnBoard(self, i):
         """Indique si la position donnée se trouve bien sur le plateau de jeu."""
         return 0 <= i < self.size * self.size
@@ -48,7 +47,6 @@ class Board:
 
     Si une carte est cachée, affiche X.
     Sinon, affiche la valeur de la carte."""
-          
 
         display = ""
         for i, card in enumerate(self.cards):
