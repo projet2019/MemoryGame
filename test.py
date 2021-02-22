@@ -1,7 +1,9 @@
 import unittest
+from unittest.mock import patch
 from board import Board
 from player import Player
 from game import Game
+from error import InvalidInputError, InvalidCardError
 
 
 class TestBoard(unittest.TestCase):
@@ -36,6 +38,9 @@ class TestBoard(unittest.TestCase):
     def test18IsNotOnBoard(self):
         """Test qu'un nombre est bien en dehors des limites du plateau"""
         self.assertFalse(self.board.isOnBoard(18), "18 ne devrait pas faire partie du plateau de jeu")
+    def testNegativeIsNotOnBoard(self):
+        """Test qu'un nombre est bien en dehors des limites du plateau"""
+         self.assertFalse(self.board.isOnBoard(-4), "-4 ne devrait pas faire partie du plateau de jeu")
 
 
 class TestPlayer(unittest.TestCase):
@@ -60,6 +65,18 @@ class TestGame(unittest.TestCase):
         """Test la validité de la commande"""
         hasValidInput, i = self.game.isInputValid("3")
         self.assertEqual(i, 2, "Le joueur a choisi la 3e carte")
+
+    @patch('builtins.input', return_value='*')
+    def testInputSpecialChar(self, input):
+        """Test qu'une commande charactère spéciale est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='g')
+    def testInputLetter(self, input):
+        """Test qu'une commande lettre est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
 
 
 if __name__ == "__main__":
