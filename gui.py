@@ -5,10 +5,11 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.clock import Clock
-from board import Board
-from player import Player
 from datetime import datetime
 from card import Card
+from typing import List, Tuple, TextIO
+from game import Game
+
 
 class MemoryGame(BoxLayout):
     """Gère le déroulement du jeu et les widgets de la fenêtre"""
@@ -17,71 +18,72 @@ class MemoryGame(BoxLayout):
     cardButtons: List[Button] = []
     chosenCardButtons: List[Tuple[Button, str]] = []
 
-    def __init__(self, **kwargs):
+
+def __init__(self, **kwargs):
         super(MemoryGame, self).__init__(**kwargs)
-        self.scoreLabel = Label(
-            text=f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})',
+        self.scoreLabel: Label = Label(
+            text=f'Nombre de paire: Joueur 1 ({self.game.players[0].getScore()}) - Joueur 2 ({self.game.players[1].getScore()})',
             size_hint=(1, None), height=30)
-        self.currPlayerLabel = Label(text=f'Tour du joueur {self.currPlayer + 1}', size_hint=(1, None), height=30)
-        self.boardWidget = GridLayout(cols=4, rows=4, padding=10, spacing=10)
-        for i, card in enumerate(self.board.cards):
-            button = Button(text='?', on_press=lambda event, arg=i: self.update(arg))
+        self.currPlayerLabel: Label = Label(text=f'Tour du joueur {self.game.currPlayer + 1}', size_hint=(1, None),
+                                            height=30)
+        self.boardWidget: GridLayout = GridLayout(cols=4, rows=4, padding=10, spacing=10)
+
+        for i, card in enumerate(self.game.board.cards):
+            button: Button = Button(text='?', on_press=lambda event, arg=i: self.update(arg))
             self.cardButtons.append(button)
             self.boardWidget.add_widget(button)
-        self.add_widget(self.scoreLabel)
-        self.add_widget(self.currPlayerLabel)
+            self.add_widget(self.scoreLabel)
+            self.add_widget(self.currPlayerLabel)
         self.add_widget(self.boardWidget)
-        print(f'Tour du joueur {self.currPlayer + 1} (Nombre de paire : {self.players[self.currPlayer].getScore()})')
-        self.board.draw()
+        self.game.showStartGame()
 
-    def update(self, i):
-        """Met à jour l'interface lorsqu'une carte est sélectionnée"""
 
-        if self.board.isOnBoard(i) and not self.board.isShown(i) and len(self.chosenCards) < 2:
-            print(f'Tour du joueur {self.currPlayer + 1} (Nombre de paire : {self.players[self.currPlayer].getScore()})')
-            self.board.showCard(i)
-            self.board.draw()
-            card = self.board.getCard(i)
-            button = self.cardButtons[i]
+def update(self, i: int):
+        """Met à jour l'interface lorsqu'une carte est sélectionnée
+        ARGS:
+        i: Numéro de la carte
+       PRE:
+        i: int d'une valeur >= 0 et < board.size*board.size
+       POST:
+        Affiche le tour du joueur et son nombre de paire dans l'interface
+        Affiche les cartes selectionnées dans l'interface
+       RAISES: -
+"""
+
+        if self.game.isInputValid(i) and len(self.game.chosenCards) < 2:
+            self.game.showPlayerTurn()
+            turnEnded: bool = self.game.update(i)
+            card: str = self.game.board.getCard(i)
+            button: Button = self.cardButtons[i]
             button.text = card
             button.background_color = (0, 0, 1, 1)
-            self.chosenCards.append((i, card))
-            if len(self.chosenCards) == 2:
-                if self.chosenCards[0][1] == self.chosenCards[1][1]:
-                    self.players[self.currPlayer].gainCard(card)
-                    print("Vous avez trouvé une paire!")
-                Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
+        self.chosenCardButtons.append((button, card))
+        if len(self.chosenCardButtons) == 2:
+            Clock.schedule_once(self.resetChosenCard, 1)  # attend 1s avant de cacher la carte
 
-    def resetChosenCard(self, dt):
-        """Supprime les cartes sélectionnées et met à jour l'affichage du score"""
-        for chosenCard in self.chosenCards:
-            button = self.cardButtons[chosenCard[0]]
-            if self.chosenCards[0][1] != self.chosenCards[1][1]:
-                self.board.hideCard(chosenCard[0])
-                button.text = '?'
-                button.background_color = (1, 1, 1, 1)
-        if self.chosenCards[0][1] != self.chosenCards[1][1]:
-            print("Vous n'avez pas trouvé de paire...")
-            self.currPlayer ^= 1  # change 0 en 1 et 1 en 0
-        self.chosenCards.clear()
-        self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.players[0].getScore()}) - Joueur 2 ({self.players[1].getScore()})'
-        if self.players[0].getScore() + self.players[1].getScore() < self.board.getPairCount():
-            self.currPlayerLabel.text = f'Tour du joueur {self.currPlayer + 1}'
-        else:
+
+def resetChosenCard(self, dt: float):
+    """Supprime les cartes sélectionnées et met à jour l'affichage du score
+        ARGS:
+        dt: Laps de temps avant l'éxecution de la fonction
+       PRE:
+        dt: float d'une valeur > 0
+       POST:
+        Met à jour le tour du joueur dans l'interface
+        Met à jour les cartes selectionnées
+       RAISES: -
+    """
+    for button in self.chosenCardButtons:
+        if self.chosenCardButtons[0][1] != self.chosenCardButtons[1][1]:
+            button[0].text = '?'
+    button[0].background_color = (1, 1, 1, 1)
+    self.chosenCardButtons.clear()
+    self.scoreLabel.text = f'Nombre de paire: Joueur 1 ({self.game.players[0].getScore()}) - Joueur 2 ({self.game.players[1].getScore()})'
+    if self.game.players[0].getScore() + self.game.players[1].getScore() < self.game.board.getPairCount():
+        self.currPlayerLabel.text = f'Tour du joueur {self.game.currPlayer + 1}'
+    else:
             self.currPlayerLabel.text = 'Fin de la partie'
-            print("Fin de la partie")
-            f = open("games.log", "a")
-            dateTime = datetime.now()
-            if self.players[0].getScore() > self.players[1].getScore():
-                print("Le joueur 1 a gagné!")
-                f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 1 a gagné!\n')
-            elif self.players[0].getScore() < self.players[1].getScore():
-                print("Le joueur 2 a gagné!")
-                f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Le joueur 2 a gagné!\n')
-            else:
-                print("Egalité!")
-                f.write(f'{dateTime.day}/{dateTime.month}/{dateTime.year} {dateTime.hour}:{dateTime.minute} Egalité!\n')
-            f.close()
+            self.game.showEndGame()
 
 
 class MemoryApp(App):
