@@ -17,7 +17,7 @@ class Board:
         self.cards = [Card(value) for value in values]
         self.cards: List[Card] = [Card(value) for value in values]
 
-    def getCard(self, i) -> str  # i(int): Numéro de la carte
+    def getCard(self, i) -> str:  # i(int): Numéro de la carte
         """Renvoie la value d'une carte à une position donnée . 
             PRE: i (int) d'une valeur >= 0 et < self.size*self.size
             POST: Renvoie str valeur de la carte choisie
