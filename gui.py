@@ -8,16 +8,14 @@ from kivy.clock import Clock
 from board import Board
 from player import Player
 from datetime import datetime
-
+from card import Card
 
 class MemoryGame(BoxLayout):
     """Gère le déroulement du jeu et les widgets de la fenêtre"""
 
-    board = Board()
-    players = [Player(), Player()]
-    chosenCards = []
-    cardButtons = []
-    currPlayer = 0
+    game: Game = Game()
+    cardButtons: List[Button] = []
+    chosenCardButtons: List[Tuple[Button, str]] = []
 
     def __init__(self, **kwargs):
         super(MemoryGame, self).__init__(**kwargs)
