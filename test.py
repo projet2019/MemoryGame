@@ -56,29 +56,11 @@ class TestPlayer(unittest.TestCase):
         self.player.gainCard('C')
         self.assertEqual(self.player.getScore(), 3, "Le joueur doit avoir 3 paires")
 
-    class TestGame(unittest.TestCase):
-        """Test que le jeu soit correctement implémenté"""
 
-        game = Game()
+class TestGame(unittest.TestCase):
+    """Test que le jeu soit correctement implémenté"""
 
-        @patch('builtins.input', return_value='3')
-        def testInputInBoard(self, input):
-            """Test qu'une commande à l'intérieur du plateau de jeu est valide"""
-            hasValidInput, i = self.game.getInput()
-            self.assertTrue(hasValidInput, "3 devrait être une commande valide")
-            self.assertEqual(i, 2, "La carte choisie doit être à l'index 2")
-
-        @patch('builtins.input', return_value='109')
-        def testInputOutsideBoard(self, input):
-            """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
-            with self.assertRaises(InvalidCardError):
-                self.game.getInput()
-
-        @patch('builtins.input', return_value='-6')
-        def testInputNegative(self, input):
-            """Test qu'une commande négative est non valide"""
-            with self.assertRaises(InvalidInputError):
-                self.game.getInput()
+    game = Game()
 
     @patch('builtins.input', return_value='3')
     def testInputInBoard(self, input):
@@ -92,6 +74,7 @@ class TestPlayer(unittest.TestCase):
         """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
         with self.assertRaises(InvalidCardError):
             self.game.getInput()
+
 
     @patch('builtins.input', return_value='-6')
     def testInputNegative(self, input):

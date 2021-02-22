@@ -3,6 +3,7 @@ import random
 from card import Card
 from typing import List
 
+
 class Board:
     """Crée et gère les cartes du jeu."""
     size = 4
@@ -26,7 +27,7 @@ class Board:
 
         return self.cards[i].value
 
-    def showCard(self, i: int): # i(int): Numéro de la carte
+    def showCard(self, i: int):  # i(int): Numéro de la carte
         """
         Indique qu'une carte à une position donnée doit être affichée.
          PRE:i: int d'une valeur >= 0 et < self.size*self.size
@@ -43,7 +44,6 @@ class Board:
         RAISES: -
         """
         self.cards[i].isShown = False
-
 
     def isOnBoard(self, i: int) -> bool:
         """
@@ -80,7 +80,7 @@ class Board:
             RAISES: -
         """
 
-        display:  str = ""
+        display: str = ""
         for i, card in enumerate(self.cards):
             if card.isShown:
                 display += " {} ".format(card.value)
