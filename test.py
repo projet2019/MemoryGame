@@ -38,9 +38,10 @@ class TestBoard(unittest.TestCase):
     def test18IsNotOnBoard(self):
         """Test qu'un nombre est bien en dehors des limites du plateau"""
         self.assertFalse(self.board.isOnBoard(18), "18 ne devrait pas faire partie du plateau de jeu")
+
     def testNegativeIsNotOnBoard(self):
         """Test qu'un nombre est bien en dehors des limites du plateau"""
-         self.assertFalse(self.board.isOnBoard(-4), "-4 ne devrait pas faire partie du plateau de jeu")
+        self.assertFalse(self.board.isOnBoard(-4), "-4 ne devrait pas faire partie du plateau de jeu")
 
 
 class TestPlayer(unittest.TestCase):
@@ -55,34 +56,30 @@ class TestPlayer(unittest.TestCase):
         self.player.gainCard('C')
         self.assertEqual(self.player.getScore(), 3, "Le joueur doit avoir 3 paires")
 
-    class TestGame(unittest.TestCase):
-        """Test que le jeu soit correctement implémenté"""
 
-        game = Game()
+class TestGame(unittest.TestCase):
+    """Test que le jeu soit correctement implémenté"""
 
-        @patch('builtins.input', return_value='3')
-        def testInputInBoard(self, input):
-            """Test qu'une commande à l'intérieur du plateau de jeu est valide"""
-            hasValidInput, i = self.game.getInput()
-            self.assertTrue(hasValidInput, "3 devrait être une commande valide")
-            self.assertEqual(i, 2, "La carte choisie doit être à l'index 2")
+    game = Game()
 
-        @patch('builtins.input', return_value='109')
-        def testInputOutsideBoard(self, input):
-            """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
-            with self.assertRaises(InvalidCardError):
-                self.game.getInput()
+    @patch('builtins.input', return_value='3')
+    def testInputInBoard(self, input):
+        """Test qu'une commande à l'intérieur du plateau de jeu est valide"""
+        hasValidInput, i = self.game.getInput()
+        self.assertTrue(hasValidInput, "3 devrait être une commande valide")
+        self.assertEqual(i, 2, "La carte choisie doit être à l'index 2")
 
-        @patch('builtins.input', return_value='-6')
-        def testInputNegative(self, input):
-            """Test qu'une commande négative est non valide"""
-            with self.assertRaises(InvalidInputError):
-                self.game.getInput()
+    @patch('builtins.input', return_value='109')
+    def testInputOutsideBoard(self, input):
+        """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
+        with self.assertRaises(InvalidCardError):
+            self.game.getInput()
 
-    def testIsInputValid(self):
-        """Test la validité de la commande"""
-        hasValidInput, i = self.game.isInputValid("3")
-        self.assertEqual(i, 2, "Le joueur a choisi la 3e carte")
+    @patch('builtins.input', return_value='-6')
+    def testInputNegative(self, input):
+        """Test qu'une commande négative est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
 
     @patch('builtins.input', return_value='*')
     def testInputSpecialChar(self, input):
@@ -99,3 +96,4 @@ class TestPlayer(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
