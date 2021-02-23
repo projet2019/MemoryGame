@@ -75,6 +75,7 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(InvalidCardError):
             self.game.getInput()
 
+
     @patch('builtins.input', return_value='-6')
     def testInputNegative(self, input):
         """Test qu'une commande négative est non valide"""
