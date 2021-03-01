@@ -119,7 +119,25 @@ class TestGame(unittest.TestCase):
             self.game.getInput()
 
     @patch('builtins.input', return_value='g')
-    def testInputLetter(self, input):
+    def testInputLetterLowerG(self, input):
+        """Test qu'une commande lettre est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='h')
+    def testInputLetterLowerH(self, input):
+        """Test qu'une commande lettre est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='A')
+    def testInputLetterUpperA(self, input):
+        """Test qu'une commande lettre est non valide"""
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='M')
+    def testInputLetterUpperM(self, input):
         """Test qu'une commande lettre est non valide"""
         with self.assertRaises(InvalidInputError):
             self.game.getInput()
