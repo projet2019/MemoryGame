@@ -48,6 +48,7 @@ class Board:
     def isOnBoard(self, i: int) -> bool:
         """
         Indique si la position donnée se trouve bien sur le plateau de jeu.
+
         PRE: i (int): Numéro de la carte
         POST:  Renvoie bool True si la carte est dans les limites. False sinon
         RAISES:-
