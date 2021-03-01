@@ -8,10 +8,11 @@ from typing import List, Tuple, TextIO
 class Game:
     """Gère le déroulement du jeu"""
 
-    board: Board = Board()
-    players: List[Player] = [Player(), Player()]
-    chosenCards: List[Tuple[int, str]] = []
-    currPlayer: int = 0
+    def __init__(self):
+        self.board: Board = Board()
+        self.players: List[Player] = [Player(), Player()]
+        self.chosenCards: List[Tuple[int, str]] = []
+        self.currPlayer: int = 0
 
     def play(self):
         """Démarre une partie.
