@@ -63,18 +63,48 @@ class TestGame(unittest.TestCase):
     game = Game()
 
     @patch('builtins.input', return_value='3')
-    def testInputInBoard(self, input):
+    def testInput3InBoard(self, input):
         """Test qu'une commande à l'intérieur du plateau de jeu est valide"""
         hasValidInput, i = self.game.getInput()
         self.assertTrue(hasValidInput, "3 devrait être une commande valide")
         self.assertEqual(i, 2, "La carte choisie doit être à l'index 2")
 
-    @patch('builtins.input', return_value='109')
-    def testInputOutsideBoard(self, input):
+    @patch('builtins.input', return_value='8')
+    def testInput8InBoard(self, input):
+        """Test qu'une commande à l'intérieur du plateau de jeu est valide"""
+        hasValidInput, i = self.game.getInput()
+        self.assertTrue(hasValidInput, "8 devrait être une commande valide")
+        self.assertEqual(i, 7, "La carte choisie doit être à l'index 7")
+
+    @patch('builtins.input', return_value='54')
+    def testInput54OutsideBoard(self, input):
         """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
         with self.assertRaises(InvalidCardError):
             self.game.getInput()
 
+    @patch('builtins.input', return_value='109')
+    def testInput109OutsideBoard(self, input):
+        """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
+        with self.assertRaises(InvalidCardError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='625')
+    def testInput625OutsideBoard(self, input):
+        """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
+        with self.assertRaises(InvalidCardError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='1000000')
+    def testInput1000000OutsideBoard(self, input):
+        """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
+        with self.assertRaises(InvalidCardError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='0')
+    def testInput0OutsideBoard(self, input):
+        """Test qu'une commande à l'extérieur du plateau de jeu est non valide"""
+        with self.assertRaises(InvalidCardError):
+            self.game.getInput()
 
     @patch('builtins.input', return_value='-6')
     def testInputNegative(self, input):
@@ -97,4 +127,3 @@ class TestGame(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
