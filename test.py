@@ -75,18 +75,40 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(InvalidCardError):
             self.game.getInput()
 
-
     @patch('builtins.input', return_value='-6')
-    def testInputNegative(self, input):
+    def testInputNegative6(self, input):
         """Test qu'une commande négative est non valide"""
         with self.assertRaises(InvalidInputError):
             self.game.getInput()
 
-    @patch('builtins.input', return_value='*')
-    def testInputSpecialChar(self, input):
-        """Test qu'une commande charactère spéciale est non valide"""
+    @patch('builtins.input', return_value='-234')
+    def testInputNegative234(self, input):
+        """Test qu'une commande négative est non valide"""
         with self.assertRaises(InvalidInputError):
             self.game.getInput()
+
+    @patch('builtins.input', return_value='-590')
+    def testInputNegative590(self, input):
+        with self.assertRaises(InvalidInputError):
+            self.game.getInput()
+
+    @patch('builtins.input', return_value='*')
+    def testInputSpecialCharStar(self, input):
+            """Test qu'une commande charactère spéciale est non valide"""
+            with self.assertRaises(InvalidInputError):
+                self.game.getInput()
+
+    @patch('builtins.input', return_value='+')
+    def testInputSpecialCharPlus(self, input):
+            """Test qu'une commande charactère spéciale est non valide"""
+            with self.assertRaises(InvalidInputError):
+                self.game.getInput()
+
+    @patch('builtins.input', return_value='.')
+    def testInputSpecialCharDot(self, input):
+            """Test qu'une commande charactère spéciale est non valide"""
+            with self.assertRaises(InvalidInputError):
+                self.game.getInput()
 
     @patch('builtins.input', return_value='g')
     def testInputLetter(self, input):
@@ -97,4 +119,3 @@ class TestGame(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
