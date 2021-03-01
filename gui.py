@@ -18,6 +18,10 @@ class MemoryGame(BoxLayout):
 
     def __init__(self, **kwargs):
         super(MemoryGame, self).__init__(**kwargs)
+        game: Game = Game()
+        cardButtons: List[Button] = []
+        chosenCardButtons: List[Tuple[Button, str]] = []
+
         self.scoreLabel: Label = Label(
             text=f'Nombre de paire: Joueur 1 ({self.game.players[0].getScore()}) - Joueur 2 ({self.game.players[1].getScore()})',
             size_hint=(1, None), height=30)
