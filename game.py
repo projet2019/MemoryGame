@@ -8,10 +8,11 @@ from typing import List, Tuple, TextIO
 class Game:
     """Gère le déroulement du jeu"""
 
-    board: Board = Board()
-    players: List[Player] = [Player(), Player()]
-    chosenCards: List[Tuple[int, str]] = []
-    currPlayer: int = 0
+    def __init__(self):
+        self.board: Board = Board()
+        self.players: List[Player] = [Player(), Player()]
+        self.chosenCards: List[Tuple[int, str]] = []
+        self.currPlayer: int = 0
 
     def play(self):
         """Démarre une partie.
@@ -107,7 +108,7 @@ class Game:
            ARGS:
             i: Numéro de la carte
            PRE:
-            i: int
+          /
            POST: Renvoie bool True si la carte est dans les limites et n'est pas affichée
            RAISES: -
         """
@@ -116,10 +117,10 @@ class Game:
     def getInput(self) -> Tuple[bool, int]:
         """Récupère la commande de l'utilisateur.
            PRE: -
-           POST: Renvoie Tuple contenant True et l'index de la carte
+           POST: Renvoie Tuple c l'index de la carte donc le nuemero a été entré par l'utlisateur
            RAISES:
             InvalidInputError si la valeur entrée par l'utilisateur n'est pas numérique
-            InvalidCardError si l'index de la carte est >= board.size*board.size
+            InvalidCardError si l'index de la carte est en dehors du plateau
               ou si la carte est déjà affichée
         """
         inputString: str = input("Choisissez une carte : ")
